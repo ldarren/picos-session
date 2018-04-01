@@ -1,25 +1,16 @@
-const
-MODEL_KEYS={},
-JOB_MODEL_KEYS = 0,
-JOB_FUNC = 1,
-JOB_CONTEXT = 2,
-ERROR = {
-    200: 'OK',
-    400: 'Bad Request',
-    401: 'Unauthorized',
-    403: 'Forbidden',
-    404: 'Not Found',
-    415: 'Unsupported Media Type',
-    419: 'Authentication Timeout',
-    500: 'Internal Server Error'
-},
+const MODEL_KEYS={}
+const JOB_MODEL_KEYS = 0
+const JOB_FUNC = 1
+const JOB_CONTEXT = 2
+const { STATUS_CODES } = require('http')
+const pStr=require('pico-common').export('pico/str')
 
-pStr=require('pico-common').export('pico/str'),
-jobFunc = function(ctx, func, models, cb){
+function jobFunc(ctx, func, models, cb){
     if (!func || !models || !models.length) return cb()
     func.apply(ctx, models.concat([cb]))
-},
-jobRun = function(jobs, index, cb){
+}
+
+function jobRun(jobs, index, cb){
     const job=jobs[index++]
     if (!job) return cb()
 
@@ -117,7 +108,7 @@ Session.prototype = {
         args.push(`[${Date.now()-this.time}]`)
         pStr.log(callee,...args)
     },
-    error:function callee(code, msg=ERROR[code], ...args){
+    error:function callee(code=500, msg=STATUS_CODES[code], ...args){
         pStr.error(callee,msg,...args)
         return [code, msg]
     }
