@@ -1,9 +1,9 @@
-const MODEL_KEYS={}
+const MODEL_KEYS = {}
 const JOB_MODEL_KEYS = 0
 const JOB_FUNC = 1
 const JOB_CONTEXT = 2
 const { STATUS_CODES } = require('http')
-const pStr=require('pico-common').export('pico/str')
+const pFunc = require('pico-common').export('pico/func')
 
 function jobFunc(ctx, func, models, cb){
     if (!func || !models || !models.length) return cb()
@@ -105,13 +105,15 @@ Session.prototype = {
         return o[0]
     },
     log:function callee(...args){
-        args.push(`[${Date.now()-this.time}]`)
-        pStr.log(callee,...args)
+        args.push(`[${(Date.now()-this.time) || 0}]`)
+		const f = pFunc.reflect(callee, 1)
+        console.log(new Date, f.fileName, f.line, f.column, ...args)
     },
     error:function callee(code=500, msg=STATUS_CODES[code], ...args){
-        pStr.error(callee,msg,...args)
+		const f = pFunc.reflect(callee, 5)
+        console.error(new Date, msg, ...args, f)
         return [code, msg]
     }
 }
 
-module.exports=Session
+module.exports = Session
