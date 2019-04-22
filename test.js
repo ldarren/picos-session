@@ -12,7 +12,7 @@ test('ensure Session addType work', cb => {
 	cb(null, 2 === session.getKeys('test')[1])
 })
 test('ensure Session log is properly populated', cb => {
-	const log = session.log('hello', 'world')
+	session.log('hello', 'world')
 	cb(null, true)
 })
 test('ensure Session error is properly populated', cb => {
