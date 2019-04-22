@@ -1,6 +1,6 @@
 {
   "name": "picos-session",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "session object for picos and picos' modules",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,6 @@
   "author": "Darren Liew",
   "license": "MIT",
   "dependencies": {
-    "pico-common": "^0.10.0"
+    "pico-common": "^0.10.18"
   }
 }
